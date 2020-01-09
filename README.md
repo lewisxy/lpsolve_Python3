@@ -3,10 +3,10 @@
 ## Introduction
 
 `lpsolve` is a library for solving Mixed Integer Linear Programming (MILP) implemented in C.
-It does have a Python extension but only haven't been updated for a long time and only support 
-Python 2. As the Python API changed a lot from 2 to 3, support for Python 3 is not as simple as
-just recompile it for Python3. This guide will walk through the process for compiling and 
-installing it.
+It does have a Python extension but haven't been updated for a long time and only support 
+Python 2. As the Python C API changed a lot from 2 to 3, support for Python 3 is not as simple as
+just recompile it for Python 3. This guide will walk through the process for compiling and 
+installing `lpsolve` module for Python 3.
 
 ## Steps
 1. Download and extract the latest version of [`lpsolve`][source] and [Python module][pysource] 
@@ -26,6 +26,7 @@ The script is a bit messy and you need to perform the following changes:
  - `print(...)` you just changed.
  - Add the followings between `import ...` and `print(...)`
    - Add `LPSOLVE55 = '../../lpsolve55/bin/<your os>'`
+   - Add `WIN32 = 'NOWIN32'` unless you are compiling for `win32` (not tested)
    - If you want to build with Numpy, add `NUMPY = 'NUMPY'` otherwise `NUMPY = 'NONUMPY'`
    - If you want to build with Numpy, you also need to find your Numpy include directory.
  It should be located in `site-packages` directory of you Python installation directory, 
@@ -57,12 +58,12 @@ If it prints errors, you probably need to change some code again :(.
 `'...'` to bytes literals b`'...'` (just add a `b` in the front of the literal) in order to make
 it work. All other things should be the same as the module in Python 2.
 
-## Common Issues:
-1. If you module could not found library `liblpsolve55.so`, it means your library
+## Common Issues
+1. If your module could not found library `liblpsolve55.so`, it means your library
 is not in the path. Try to set the environmental variable `LD_LIBRARY_PATH` to the location of your
 library.
 
-2. If you module could not initalize because of `unknown symbols xxx`. Double check the changes in 
+2. If your module could not initalize because of `unknown symbols xxx`. Double check the changes in 
 `pythonmod.c`, especially for the replacements.
 
 3. On Linux, if `gcc` throws error, try to compile with `clang` (`cc=clang` in `ccc`)
